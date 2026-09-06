@@ -12,7 +12,7 @@
 <div class="card">
     <div class="card-body">
         <p><strong>Status:</strong> @Model.Status.GetDisplayName()</p>
-        <p><strong>Data:</strong> @Model.DataPedido.ToString("dd/MM/yyyy HH:mm")</p>
+        <p><strong>Data:</strong> @Model.DataPedido.ParaHorarioBrasilia().ToString("dd/MM/yyyy HH:mm")</p>
         <p><strong>Valor total:</strong> R$ @Model.ValorTotal.ToString("F2")</p>
         <p><strong>Pagamento:</strong> @(Model.Pagamento is not null ? $"{Model.Pagamento.Forma.GetDisplayName()} ({Model.Pagamento.Status.GetDisplayName()})" : "-")</p>
     </div>

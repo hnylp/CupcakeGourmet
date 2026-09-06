@@ -14,7 +14,7 @@ public class PedidoFactory
         {
             ClienteId = clienteId,
             EnderecoEntregaId = enderecoEntregaId,
-            DataPedido = DateTime.Now,
+            DataPedido = DateTime.UtcNow,
             Status = StatusPedido.Recebido,
             Itens = itensCarrinho.Select(i => new ItemPedido
             {
@@ -31,7 +31,7 @@ public class PedidoFactory
             Forma = formaPagamento,
             ValorPago = pedido.ValorTotal,
             Status = StatusPagamento.Aprovado,
-            DataPagamento = DateTime.Now
+            DataPagamento = DateTime.UtcNow
         };
 
         return pedido;

@@ -22,7 +22,7 @@
             <tr>
                 <td>#@p.Id</td>
                 <td>@p.Cliente?.NomeCompleto</td>
-                <td>@p.DataPedido.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>@p.DataPedido.ParaHorarioBrasilia().ToString("dd/MM/yyyy HH:mm")</td>
                 <td><span class="badge bg-secondary">@p.Status.GetDisplayName()</span></td>
                 <td>R$ @p.ValorTotal.ToString("F2")</td>
                 <td><a asp-action="Details" asp-route-id="@p.Id" class="btn btn-sm btn-outline-danger">Gerenciar</a></td>

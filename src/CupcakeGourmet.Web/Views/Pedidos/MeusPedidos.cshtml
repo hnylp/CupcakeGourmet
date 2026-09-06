@@ -30,7 +30,7 @@ else
                 {
                     <tr>
                         <td>#@pedido.Id</td>
-                        <td>@pedido.DataPedido.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td>@pedido.DataPedido.ParaHorarioBrasilia().ToString("dd/MM/yyyy HH:mm")</td>
                         <td><span class="badge bg-secondary">@pedido.Status.GetDisplayName()</span></td>
                         <td>R$ @pedido.ValorTotal.ToString("F2")</td>
                         <td><a asp-action="Details" asp-route-id="@pedido.Id" class="btn btn-sm btn-outline-danger">Acompanhar</a></td>

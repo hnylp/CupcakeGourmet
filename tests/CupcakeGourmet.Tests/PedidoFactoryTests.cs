@@ -61,4 +61,20 @@ public class PedidoFactoryTests
         Assert.Equal("cliente-42", pedido.ClienteId);
         Assert.Equal(7, pedido.EnderecoEntregaId);
     }
+
+    [Fact]
+    public void CriarPedido_DatasDevemSerUtc()
+    {
+        // PostgreSQL (Npgsql) rejeita DateTime com Kind=Local em colunas timestamp;
+        // este teste evita a regressao para DateTime.Now que quebrava o checkout em producao.
+        var itens = new List<CarrinhoItem>
+        {
+            new() { ProdutoId = 1, Nome = "Baunilha", PrecoUnitario = 8.90m, Quantidade = 1 }
+        };
+
+        var pedido = _factory.CriarPedido("cliente-1", 5, itens, FormaPagamento.Pix);
+
+        Assert.Equal(DateTimeKind.Utc, pedido.DataPedido.Kind);
+        Assert.Equal(DateTimeKind.Utc, pedido.Pagamento!.DataPagamento!.Value.Kind);
+    }
 }

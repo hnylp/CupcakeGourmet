@@ -15,7 +15,7 @@ public class Pedido
     public int EnderecoEntregaId { get; set; }
     public Endereco? EnderecoEntrega { get; set; }
 
-    public DateTime DataPedido { get; set; } = DateTime.Now;
+    public DateTime DataPedido { get; set; } = DateTime.UtcNow;
 
     public StatusPedido Status { get; set; } = StatusPedido.Recebido;
 

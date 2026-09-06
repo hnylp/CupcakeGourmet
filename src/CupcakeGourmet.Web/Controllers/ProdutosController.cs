@@ -18,7 +18,7 @@ public class ProdutosController(ApplicationDbContext context) : Controller
             produtosQuery = produtosQuery.Where(p => p.CategoriaId == categoriaId.Value);
 
         if (!string.IsNullOrWhiteSpace(busca))
-            produtosQuery = produtosQuery.Where(p => p.Nome.Contains(busca));
+            produtosQuery = produtosQuery.Where(p => p.Nome.ToLower().Contains(busca.ToLower()));
 
         ViewBag.Categorias = await context.Categorias.OrderBy(c => c.Nome).ToListAsync();
         ViewBag.CategoriaSelecionada = categoriaId;
