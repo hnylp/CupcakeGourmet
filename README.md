@@ -87,4 +87,4 @@ dotnet test
 
 ## Testes com colegas e laudo de qualidade
 
-Os resultados dos testes realizados por colegas de curso, o laudo de qualidade e os vídeos de demonstração são entregues separadamente conforme o formulário oficial da atividade (`PIT_atividade.docx`), e referenciados a partir deste repositório.
+Os resultados dos testes realizados por colegas, o laudo de qualidade e os vídeos de demonstração são entregues separadamente conforme o formulário oficial da atividade (`PIT_atividade.docx`), e referenciados a partir deste repositório.
