@@ -1,0 +1,36 @@
+databases:
+  - name: cupcakegourmet-db
+    plan: free
+    databaseName: cupcakegourmet
+    user: cupcakegourmet
+
+services:
+  - type: web
+    name: cupcakegourmet-web
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: free
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: DB_HOST
+        fromDatabase:
+          name: cupcakegourmet-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: cupcakegourmet-db
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: cupcakegourmet-db
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: cupcakegourmet-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: cupcakegourmet-db
+          property: password

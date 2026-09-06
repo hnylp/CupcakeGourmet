@@ -1,0 +1,12 @@
+@model Categoria
+@{
+    ViewData["Title"] = "Nova Categoria";
+}
+<h1 class="mb-4">Nova Categoria</h1>
+<form asp-action="Criar" method="post">
+    @await Html.PartialAsync("_Form", Model)
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

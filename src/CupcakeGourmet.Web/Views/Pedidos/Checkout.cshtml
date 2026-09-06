@@ -1,0 +1,71 @@
+@using CupcakeGourmet.Web.Models
+@using CupcakeGourmet.Web.Models.ViewModels
+@model CheckoutViewModel
+@{
+    ViewData["Title"] = "Finalizar Pedido";
+}
+
+<h1 class="mb-4">Finalizar Pedido</h1>
+
+<div class="row">
+    <div class="col-md-7">
+        <form asp-action="Checkout" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
+
+            <div class="mb-4">
+                <label class="form-label fw-bold">Endereço de entrega</label>
+                @if (Model.EnderecosDisponiveis.Count == 0)
+                {
+                    <div class="alert alert-warning">
+                        Você ainda não tem endereços cadastrados.
+                        <a asp-controller="Enderecos" asp-action="Criar" asp-route-returnUrl="@Url.Action("Checkout")">Cadastrar endereço</a>
+                    </div>
+                }
+                else
+                {
+                    @foreach (var e in Model.EnderecosDisponiveis)
+                    {
+                        <div class="form-check border rounded p-2 mb-2">
+                            <input class="form-check-input" type="radio" name="EnderecoEntregaId" id="end-@e.Id" value="@e.Id" checked="@(e.Id == Model.EnderecoEntregaId)" />
+                            <label class="form-check-label" for="end-@e.Id">
+                                <strong>@e.Apelido</strong> — @e.Logradouro, @e.Numero, @e.Bairro, @e.Cidade/@e.Uf
+                            </label>
+                        </div>
+                    }
+                    <a class="small" asp-controller="Enderecos" asp-action="Criar" asp-route-returnUrl="@Url.Action("Checkout")">+ usar outro endereço</a>
+                }
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label fw-bold">Forma de pagamento</label>
+                <select asp-for="FormaPagamento" class="form-select" asp-items="Html.GetEnumSelectList<FormaPagamento>()"></select>
+                <span asp-validation-for="FormaPagamento" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-danger btn-lg" @(Model.EnderecosDisponiveis.Count == 0 ? "disabled" : "")>Confirmar pedido</button>
+        </form>
+    </div>
+
+    <div class="col-md-5">
+        <div class="card">
+            <div class="card-header">Resumo do pedido</div>
+            <ul class="list-group list-group-flush">
+                @foreach (var item in Model.Itens)
+                {
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>@item.Nome x @item.Quantidade</span>
+                        <span>R$ @item.Subtotal.ToString("F2")</span>
+                    </li>
+                }
+            </ul>
+            <div class="card-footer d-flex justify-content-between fw-bold">
+                <span>Total</span>
+                <span class="text-danger">R$ @Model.ValorTotal.ToString("F2")</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

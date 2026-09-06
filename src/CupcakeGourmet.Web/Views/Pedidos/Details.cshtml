@@ -1,0 +1,69 @@
+@using CupcakeGourmet.Web.Models
+@model Pedido
+@{
+    ViewData["Title"] = $"Pedido #{Model.Id}";
+    var etapas = new[] { StatusPedido.Recebido, StatusPedido.EmPreparo, StatusPedido.SaiuParaEntrega, StatusPedido.Entregue };
+    var etapaAtual = Array.IndexOf(etapas, Model.Status);
+}
+
+<a asp-action="MeusPedidos" class="btn btn-link mb-3">&larr; Meus pedidos</a>
+<h1 class="mb-4">Pedido #@Model.Id</h1>
+
+@if (Model.Status == StatusPedido.Cancelado)
+{
+    <div class="alert alert-danger">Este pedido foi cancelado.</div>
+}
+else
+{
+    <div class="d-flex justify-content-between mb-4 text-center">
+        @for (int i = 0; i < etapas.Length; i++)
+        {
+            <div class="flex-fill">
+                <div class="rounded-circle mx-auto d-flex align-items-center justify-content-center @(i <= etapaAtual ? "bg-danger text-white" : "bg-light text-muted")" style="width:40px;height:40px;">
+                    @(i + 1)
+                </div>
+                <small class="@(i <= etapaAtual ? "fw-bold" : "text-muted")">@etapas[i].GetDisplayName()</small>
+            </div>
+        }
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-7">
+        <div class="card mb-3">
+            <div class="card-header">Itens</div>
+            <ul class="list-group list-group-flush">
+                @foreach (var item in Model.Itens)
+                {
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>@item.Produto?.Nome x @item.Quantidade</span>
+                        <span>R$ @item.Subtotal.ToString("F2")</span>
+                    </li>
+                }
+            </ul>
+            <div class="card-footer d-flex justify-content-between fw-bold">
+                <span>Total</span>
+                <span class="text-danger">R$ @Model.ValorTotal.ToString("F2")</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="card mb-3">
+            <div class="card-header">Entrega</div>
+            <div class="card-body">
+                @if (Model.EnderecoEntrega is not null)
+                {
+                    <p class="mb-0">@Model.EnderecoEntrega.Logradouro, @Model.EnderecoEntrega.Numero</p>
+                    <p>@Model.EnderecoEntrega.Bairro - @Model.EnderecoEntrega.Cidade/@Model.EnderecoEntrega.Uf</p>
+                }
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">Pagamento</div>
+            <div class="card-body">
+                <p class="mb-1"><strong>Forma:</strong> @(Model.Pagamento is not null ? Model.Pagamento.Forma.GetDisplayName() : "-")</p>
+                <p class="mb-0"><strong>Status:</strong> @(Model.Pagamento is not null ? Model.Pagamento.Status.GetDisplayName() : "-")</p>
+            </div>
+        </div>
+    </div>
+</div>

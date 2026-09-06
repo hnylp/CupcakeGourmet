@@ -1,0 +1,67 @@
+@model Pedido
+@{
+    ViewData["Title"] = $"Pedido #{Model.Id}";
+}
+
+<a asp-action="Index" class="btn btn-link mb-3">&larr; Voltar</a>
+<h1 class="mb-4">Pedido #@Model.Id</h1>
+
+<div class="row">
+    <div class="col-md-7">
+        <div class="card mb-3">
+            <div class="card-header">Cliente</div>
+            <div class="card-body">
+                <p class="mb-1"><strong>Nome:</strong> @Model.Cliente?.NomeCompleto</p>
+                <p class="mb-0"><strong>E-mail:</strong> @Model.Cliente?.Email</p>
+            </div>
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-header">Itens</div>
+            <ul class="list-group list-group-flush">
+                @foreach (var item in Model.Itens)
+                {
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>@item.Produto?.Nome x @item.Quantidade</span>
+                        <span>R$ @item.Subtotal.ToString("F2")</span>
+                    </li>
+                }
+            </ul>
+            <div class="card-footer d-flex justify-content-between fw-bold">
+                <span>Total</span>
+                <span class="text-danger">R$ @Model.ValorTotal.ToString("F2")</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">Entrega</div>
+            <div class="card-body">
+                @if (Model.EnderecoEntrega is not null)
+                {
+                    <p class="mb-0">@Model.EnderecoEntrega.Logradouro, @Model.EnderecoEntrega.Numero — @Model.EnderecoEntrega.Bairro, @Model.EnderecoEntrega.Cidade/@Model.EnderecoEntrega.Uf</p>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-5">
+        <div class="card mb-3">
+            <div class="card-header">Pagamento</div>
+            <div class="card-body">
+                <p class="mb-1"><strong>Forma:</strong> @(Model.Pagamento is not null ? Model.Pagamento.Forma.GetDisplayName() : "-")</p>
+                <p class="mb-0"><strong>Status:</strong> @(Model.Pagamento is not null ? Model.Pagamento.Status.GetDisplayName() : "-")</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">Atualizar status do pedido</div>
+            <div class="card-body">
+                <form asp-action="AtualizarStatus" method="post">
+                    <input type="hidden" name="id" value="@Model.Id" />
+                    <select name="novoStatus" class="form-select mb-2" asp-items="Html.GetEnumSelectList<StatusPedido>().Select(x => new SelectListItem(x.Text, x.Value, x.Value == ((int)Model.Status).ToString()))"></select>
+                    <button type="submit" class="btn btn-danger w-100">Atualizar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,24 @@
+@using CupcakeGourmet.Web.Models
+@model Pedido
+@{
+    ViewData["Title"] = "Pedido confirmado";
+}
+
+<div class="alert alert-success text-center">
+    <h1 class="display-6">✔ Pedido #@Model.Id confirmado!</h1>
+    <p>Obrigado pela compra. Seu pedido está sendo preparado com carinho.</p>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <p><strong>Status:</strong> @Model.Status.GetDisplayName()</p>
+        <p><strong>Data:</strong> @Model.DataPedido.ToString("dd/MM/yyyy HH:mm")</p>
+        <p><strong>Valor total:</strong> R$ @Model.ValorTotal.ToString("F2")</p>
+        <p><strong>Pagamento:</strong> @(Model.Pagamento is not null ? $"{Model.Pagamento.Forma.GetDisplayName()} ({Model.Pagamento.Status.GetDisplayName()})" : "-")</p>
+    </div>
+</div>
+
+<div class="mt-3">
+    <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-danger">Ver detalhes do pedido</a>
+    <a asp-controller="Produtos" asp-action="Index" class="btn btn-outline-secondary">Continuar comprando</a>
+</div>

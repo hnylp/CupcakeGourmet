@@ -1,0 +1,30 @@
+@model List<Categoria>
+@{
+    ViewData["Title"] = "Categorias";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Categorias</h1>
+    <a asp-action="Criar" class="btn btn-danger">+ Nova categoria</a>
+</div>
+
+<table class="table">
+    <thead><tr><th>Nome</th><th>Descrição</th><th>Produtos</th><th></th></tr></thead>
+    <tbody>
+        @foreach (var c in Model)
+        {
+            <tr>
+                <td>@c.Nome</td>
+                <td>@c.Descricao</td>
+                <td>@c.Produtos.Count</td>
+                <td>
+                    <a asp-action="Editar" asp-route-id="@c.Id" class="btn btn-sm btn-outline-secondary">Editar</a>
+                    <form asp-action="Excluir" method="post" class="d-inline" onsubmit="return confirm('Excluir categoria?');">
+                        <input type="hidden" name="id" value="@c.Id" />
+                        <button type="submit" class="btn btn-sm btn-outline-danger">Excluir</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

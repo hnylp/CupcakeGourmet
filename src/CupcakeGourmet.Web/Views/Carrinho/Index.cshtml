@@ -1,0 +1,64 @@
+@using CupcakeGourmet.Web.Models.Carrinho
+@model List<CarrinhoItem>
+@{
+    ViewData["Title"] = "Meu Carrinho";
+    decimal total = ViewBag.ValorTotal;
+}
+
+<h1 class="mb-4">🛒 Meu Carrinho</h1>
+
+@if (Model.Count == 0)
+{
+    <div class="alert alert-info">
+        Seu carrinho está vazio. <a asp-controller="Produtos" asp-action="Index">Ver catálogo</a>.
+    </div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table align-middle">
+            <thead>
+                <tr>
+                    <th>Produto</th>
+                    <th>Preço unitário</th>
+                    <th style="width:140px">Quantidade</th>
+                    <th>Subtotal</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center gap-2">
+                                <img src="@(item.ImagemUrl ?? "https://via.placeholder.com/60")" style="width:50px;height:50px;object-fit:cover;" class="rounded" alt="@item.Nome" />
+                                @item.Nome
+                            </div>
+                        </td>
+                        <td>R$ @item.PrecoUnitario.ToString("F2")</td>
+                        <td>
+                            <form asp-action="AtualizarQuantidade" method="post" class="d-flex gap-1">
+                                <input type="hidden" name="produtoId" value="@item.ProdutoId" />
+                                <input type="number" name="quantidade" value="@item.Quantidade" min="1" class="form-control form-control-sm" style="width:70px" />
+                                <button type="submit" class="btn btn-sm btn-outline-secondary" title="Atualizar quantidade">↻</button>
+                            </form>
+                        </td>
+                        <td>R$ @item.Subtotal.ToString("F2")</td>
+                        <td>
+                            <form asp-action="Remover" method="post">
+                                <input type="hidden" name="produtoId" value="@item.ProdutoId" />
+                                <button type="submit" class="btn btn-sm btn-outline-danger">Remover</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mt-3">
+        <h4>Total: <span class="text-danger">R$ @total.ToString("F2")</span></h4>
+        <a asp-controller="Pedidos" asp-action="Checkout" class="btn btn-danger btn-lg">Finalizar pedido</a>
+    </div>
+}

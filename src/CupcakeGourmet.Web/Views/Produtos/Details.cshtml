@@ -1,0 +1,38 @@
+@using CupcakeGourmet.Web.Models
+@model Produto
+@{
+    ViewData["Title"] = Model.Nome;
+}
+
+<a asp-action="Index" class="btn btn-link mb-3">&larr; Voltar ao catálogo</a>
+
+<div class="row g-4">
+    <div class="col-md-5">
+        <img src="@(Model.ImagemUrl ?? "https://via.placeholder.com/500x400?text=Cupcake")" class="img-fluid rounded shadow-sm" alt="@Model.Nome" />
+    </div>
+    <div class="col-md-7">
+        <h1>@Model.Nome</h1>
+        <p class="text-muted">Categoria: @Model.Categoria?.Nome</p>
+        <p class="fs-4 fw-bold text-danger">R$ @Model.Preco.ToString("F2")</p>
+        <p>@Model.Descricao</p>
+
+        @if (Model.QuantidadeEmEstoque > 0)
+        {
+            <p class="text-success">✔ Em estoque (@Model.QuantidadeEmEstoque disponíveis)</p>
+            <form asp-controller="Carrinho" asp-action="Adicionar" method="post" class="row g-2 align-items-end">
+                <input type="hidden" name="produtoId" value="@Model.Id" />
+                <div class="col-auto">
+                    <label class="form-label">Quantidade</label>
+                    <input type="number" name="quantidade" value="1" min="1" max="@Model.QuantidadeEmEstoque" class="form-control" style="width:100px" />
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-danger btn-lg">Adicionar ao carrinho</button>
+                </div>
+            </form>
+        }
+        else
+        {
+            <p class="text-danger">Produto esgotado no momento.</p>
+        }
+    </div>
+</div>

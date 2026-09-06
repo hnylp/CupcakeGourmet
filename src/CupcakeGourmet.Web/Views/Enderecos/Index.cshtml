@@ -1,0 +1,37 @@
+@using CupcakeGourmet.Web.Models
+@model List<Endereco>
+@{
+    ViewData["Title"] = "Meus Endereços";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Meus Endereços</h1>
+    <a asp-action="Criar" class="btn btn-danger">+ Novo endereço</a>
+</div>
+
+@if (Model.Count == 0)
+{
+    <div class="alert alert-info">Você ainda não cadastrou nenhum endereço.</div>
+}
+else
+{
+    <div class="row row-cols-1 row-cols-md-2 g-3">
+        @foreach (var e in Model)
+        {
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">@e.Apelido</h5>
+                        <p class="card-text mb-1">@e.Logradouro, @e.Numero @e.Complemento</p>
+                        <p class="card-text mb-1">@e.Bairro - @e.Cidade/@e.Uf</p>
+                        <p class="card-text text-muted">CEP: @e.Cep</p>
+                        <form asp-action="Excluir" method="post" onsubmit="return confirm('Excluir este endereço?');">
+                            <input type="hidden" name="id" value="@e.Id" />
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Excluir</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

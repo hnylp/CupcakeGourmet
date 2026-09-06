@@ -1,0 +1,41 @@
+@model List<Produto>
+@{
+    ViewData["Title"] = "Produtos";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Produtos</h1>
+    <a asp-action="Criar" class="btn btn-danger">+ Novo produto</a>
+</div>
+
+<table class="table align-middle">
+    <thead><tr><th>Nome</th><th>Categoria</th><th>Preço</th><th>Estoque</th><th>Ativo</th><th></th></tr></thead>
+    <tbody>
+        @foreach (var p in Model)
+        {
+            <tr>
+                <td>@p.Nome</td>
+                <td>@p.Categoria?.Nome</td>
+                <td>R$ @p.Preco.ToString("F2")</td>
+                <td>@p.QuantidadeEmEstoque</td>
+                <td>
+                    @if (p.Ativo)
+                    {
+                        <span class="badge bg-success">Ativo</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">Inativo</span>
+                    }
+                </td>
+                <td>
+                    <a asp-action="Editar" asp-route-id="@p.Id" class="btn btn-sm btn-outline-secondary">Editar</a>
+                    <form asp-action="AlternarAtivo" method="post" class="d-inline">
+                        <input type="hidden" name="id" value="@p.Id" />
+                        <button type="submit" class="btn btn-sm btn-outline-warning">@(p.Ativo ? "Desativar" : "Ativar")</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

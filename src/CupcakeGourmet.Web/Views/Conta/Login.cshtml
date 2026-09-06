@@ -1,0 +1,45 @@
+@using CupcakeGourmet.Web.Models.ViewModels
+@model LoginViewModel
+@{
+    ViewData["Title"] = "Entrar";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <h1 class="mb-4">Entrar</h1>
+        <form asp-action="Login" method="post">
+            <input type="hidden" asp-for="ReturnUrl" />
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
+
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label"></label>
+                <input asp-for="Email" class="form-control" autocomplete="username" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Senha" class="form-label"></label>
+                <input asp-for="Senha" class="form-control" autocomplete="current-password" />
+                <span asp-validation-for="Senha" class="text-danger"></span>
+            </div>
+            <div class="form-check mb-3">
+                <input asp-for="LembrarMe" class="form-check-input" />
+                <label asp-for="LembrarMe" class="form-check-label"></label>
+            </div>
+            <button type="submit" class="btn btn-danger w-100">Entrar</button>
+        </form>
+
+        <p class="mt-3 text-center">
+            Não tem conta? <a asp-action="Registrar">Cadastre-se</a>
+        </p>
+
+        <div class="alert alert-secondary mt-4 small">
+            <strong>Conta de administrador para demonstração:</strong><br />
+            E-mail: admin@cupcakegourmet.com.br<br />
+            Senha: Admin@123
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

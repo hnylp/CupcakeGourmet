@@ -1,0 +1,29 @@
+## .NET
+bin/
+obj/
+*.user
+*.suo
+
+## Visual Studio / Rider / VS Code
+.vs/
+.vscode/
+.idea/
+*.userosscache
+*.sln.docstates
+
+## Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+
+## Test results
+TestResults/
+
+## User secrets (never commit secrets)
+**/appsettings.Development.json
+**/secrets.json
+
+## OS files
+.DS_Store
+Thumbs.db

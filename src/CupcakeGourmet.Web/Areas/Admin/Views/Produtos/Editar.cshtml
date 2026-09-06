@@ -1,0 +1,12 @@
+@model Produto
+@{
+    ViewData["Title"] = "Editar Produto";
+}
+<h1 class="mb-4">Editar Produto</h1>
+<form asp-action="Editar" asp-route-id="@Model.Id" method="post">
+    @await Html.PartialAsync("_Form", Model)
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
