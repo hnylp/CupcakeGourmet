@@ -1,6 +1,6 @@
 # 🧁 Cupcake Gourmet
 
-Sistema web de e-commerce para uma loja de cupcakes gourmet, desenvolvido como parte do **Projeto Integrador Transdisciplinar em Engenharia de Software II**, dando continuidade à modelagem UML feita no Projeto Integrador I (Situação-Problema 2 — Artefatos UML).
+Sistema web de e-commerce para uma loja de cupcakes gourmet, desenvolvido como parte do **Projeto Integrador Transdisciplinar em Engenharia de Software II**, dando continuidade à modelagem UML feita no Projeto Integrador I (Situação-Problema 2 - Artefatos UML).
 
 ## Sobre o projeto
 
