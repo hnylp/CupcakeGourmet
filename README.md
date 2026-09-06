@@ -6,7 +6,8 @@ Sistema web de e-commerce para uma loja de cupcakes gourmet, desenvolvido como p
 
 - **Back-end:** C# / ASP.NET Core 10 MVC
 - **Front-end:** Razor Views + Bootstrap 5 (responsivo)
-- **Banco de dados:** SQL Server (LocalDB em desenvolvimento) via Entity Framework Core (Code First)
+- **Banco de dados:** PostgreSQL via Entity Framework Core (Code First)
+- **Hospedagem:** Render (Web Service via Docker + PostgreSQL gerenciado)
 - **Autenticação:** ASP.NET Core Identity, com papéis **Cliente** e **Administrador**
 - **Testes:** xUnit (testes unitários das regras de negócio de carrinho e criação de pedidos)
 - **Padrão arquitetural:** MVC (Model-View-Controller), conforme orientado no material da disciplina
@@ -44,7 +45,7 @@ CupcakeGourmet/
 
 ## Como executar localmente
 
-Pré-requisitos: [.NET SDK 10](https://dotnet.microsoft.com/download) e SQL Server LocalDB (instalado junto com o Visual Studio ou o "SQL Server Express LocalDB").
+Pré-requisitos: [.NET SDK 10](https://dotnet.microsoft.com/download) e um PostgreSQL local (ou aponte a connection string em `appsettings.json` para um Postgres remoto).
 
 ```bash
 # Restaurar dependências e aplicar as migrações do banco
@@ -56,6 +57,8 @@ dotnet run
 ```
 
 A aplicação sobe em `http://localhost:5291` (ou a porta exibida no terminal). Na primeira execução, o sistema **popula automaticamente** o banco com categorias, produtos de exemplo e um usuário administrador, para já ficar testável.
+
+Em produção (Render), a connection string é montada a partir das variáveis de ambiente `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER` e `DB_PASSWORD`, injetadas automaticamente pelo `render.yaml`.
 
 ### Conta de administrador (demonstração)
 
@@ -80,6 +83,7 @@ dotnet test
 ## Documentação adicional
 
 - [`docs/dicionario-de-dados.md`](docs/dicionario-de-dados.md) — dicionário de dados completo do projeto físico do banco.
+- [`docs/uml/`](docs/uml/README.md) — revisão dos artefatos UML do PIT I (casos de uso, classes, sequência), atualizados a partir do sistema realmente implementado.
 
 ## Testes com colegas e laudo de qualidade
 
